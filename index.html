@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tendra · Every job at home, sorted</title>
+<meta name="description" content="Tendra (demo) connects you with trusted providers for your home, garden and office. Describe the job, compare offers, choose the best one.">
+<meta property="og:title" content="Tendra · Every job at home, sorted">
+<meta property="og:description" content="Describe what you need, get offers from verified providers, choose the best one. Launching February 2027.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%229%22%20fill%3D%22%235B3DF5%22%2F%3E%3Cpath%20d%3D%22M8%2016.5%2016%209l8%207.5V24a1%201%200%200%201-1%201H9a1%201%200%200%201-1-1z%22%20fill%3D%22%23fff%22%2F%3E%3C%2Fsvg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap">
+<style>
+/* Tendra brand tokens (from the supplied UI kit) */
+:root {
+  --ink: #1B1530; --ink2: #4A4462; --mute: #7E7894; --faint: #B4AFC6;
+  --line: #E7E3F0; --line2: #F0EDF6; --bg: #F7F5FB; --card: #FFFFFF;
+  --teal: #5B3DF5; --teal-d: #4529D6; --teal-50: #EFEBFF; --teal-100: #DCD3FF;
+  --mint: #FF7A59; --mint-50: #FFF0EB; --mint-100: #FFD9CD; --mint-d: #D9532F;
+  --deep: #160F2E; --amber: #E8912C; --amber-50: #FDF1E2; --blue: #0677BA; --blue-50: #E6F1F8; --red: #D2544B;
+  --r-s: 10px; --r-m: 14px; --r-l: 20px; --r-xl: 28px;
+  --sh-1: 0 1px 2px rgba(27,21,48,.06), 0 1px 1px rgba(27,21,48,.04);
+  --sh-2: 0 12px 32px -12px rgba(27,21,48,.18), 0 2px 6px rgba(27,21,48,.05);
+  --sh-3: 0 30px 60px -20px rgba(22,15,46,.28), 0 6px 16px rgba(22,15,46,.08);
+  --fd: "Sora", system-ui, sans-serif;
+  --ft: "Plus Jakarta Sans", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+html, body { margin: 0; }
+[hidden] { display: none !important; }
+body { background: var(--bg); color: var(--ink); font-family: var(--ft); font-size: 16px; line-height: 1.6; overflow-x: clip; }
+a { color: inherit; }
+img { max-width: 100%; height: auto; display: block; }
+:focus-visible { outline: 3px solid var(--teal); outline-offset: 2px; }
+.wrap { max-width: 1160px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left)); padding-right: max(20px, env(safe-area-inset-right)); }
+.sr { position: absolute; left: -9999px; }
+
+/* Nav */
+nav.top { position: sticky; top: 0; z-index: 20; background: rgba(247,245,251,.88); backdrop-filter: blur(12px); border-bottom: 1px solid transparent; transition: border-color .2s; }
+nav.top.scrolled { border-color: var(--line); }
+nav.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--fd); font-weight: 800; font-size: 24px; letter-spacing: -.02em; }
+.mark { display: inline-block; flex: none; } .mark svg { width: 100%; height: 100%; display: block; }
+.demo-tag { font-family: var(--ft); font-size: 11px; font-weight: 600; color: var(--mute); border: 1px solid var(--line); border-radius: 999px; padding: 2px 8px; }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.lang select { font: 600 14px var(--ft); border: 1px solid var(--line); background: var(--card); border-radius: 999px; padding: 9px 12px; color: var(--ink); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 0; border-radius: 999px; padding: 15px 26px; font: 600 16px var(--ft); cursor: pointer; text-decoration: none; background: var(--teal); color: #fff; transition: transform .15s, background .15s, box-shadow .15s; box-shadow: 0 10px 24px -10px rgba(91,61,245,.6); }
+.btn:hover { transform: translateY(-1px); background: var(--teal-d); }
+.btn.dark { background: var(--ink); box-shadow: none; }
+.btn.ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--line); box-shadow: none; }
+.btn.ghost:hover { background: var(--card); }
+.btn.sm { padding: 10px 18px; font-size: 14px; }
+
+/* Hero */
+.hero { display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: center; padding-block: 48px 72px; }
+.hero > * { min-width: 0; }
+.badge { display: inline-flex; align-items: center; gap: 8px; background: var(--mint-50); color: var(--mint-d); font-weight: 600; font-size: 14px; padding: 6px 14px; border-radius: 999px; }
+.badge i { width: 8px; height: 8px; border-radius: 50%; background: var(--mint); animation: pulse 1.8s infinite; }
+h1 { font-family: var(--fd); font-weight: 700; font-size: clamp(44px, 6.4vw, 80px); line-height: 1; letter-spacing: -.03em; margin: 18px 0 20px; text-wrap: balance; }
+h1 em { font-style: normal; color: var(--teal); }
+.lead { font-size: 19px; color: var(--ink2); max-width: 48ch; margin: 0 0 30px; }
+.cta { display: flex; gap: 12px; flex-wrap: wrap; }
+.trust { display: flex; gap: 22px; margin-top: 32px; flex-wrap: wrap; color: var(--mute); font-size: 14px; }
+.trust span::before { content: "✓"; color: var(--mint-d); font-weight: 700; margin-right: 6px; }
+.hero-copy > * { animation: rise .7s ease both; }
+.hero-copy > :nth-child(2) { animation-delay: .08s; } .hero-copy > :nth-child(3) { animation-delay: .16s; }
+.hero-copy > :nth-child(4) { animation-delay: .24s; } .hero-copy > :nth-child(5) { animation-delay: .32s; }
+
+/* Animated phone */
+.stage { position: relative; display: grid; place-items: center; min-height: 580px; }
+.halo { position: absolute; width: min(460px, 88vw); height: min(460px, 88vw); border-radius: 46% 54% 52% 48% / 50% 44% 56% 50%; background: radial-gradient(circle at 30% 30%, var(--mint-100), var(--teal-50) 70%); animation: morph 14s ease-in-out infinite; }
+.ring { position: absolute; width: 120px; height: 120px; border-radius: 50%; border: 14px solid var(--mint); opacity: .35; top: 20px; right: 30px; animation: bob 7s ease-in-out infinite; }
+.phone { position: relative; width: 280px; height: 572px; background: var(--deep); border-radius: 44px; padding: 11px; box-shadow: var(--sh-3); animation: float 6s ease-in-out infinite; }
+.screen { background: var(--bg); border-radius: 34px; height: 100%; overflow: hidden; padding: 18px 14px; display: flex; flex-direction: column; gap: 10px; font-size: 12px; }
+.app-top { display: flex; align-items: center; justify-content: space-between; }
+.app-top b { display: flex; align-items: center; gap: 6px; font-family: var(--fd); font-size: 14px; }
+.app-top b .mark { background: none; padding: 0; border-radius: 0; }
+.app-top span { background: var(--ink); color: #fff; font-weight: 600; font-size: 10px; padding: 4px 10px; border-radius: 999px; }
+.app-h { font-family: var(--fd); font-weight: 700; font-size: 21px; line-height: 1.05; letter-spacing: -.02em; margin: 2px 0 0; }
+.app-h b { color: var(--teal); font-weight: 700; display: block; }
+.req { background: var(--card); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--sh-1); overflow: hidden; }
+.req-in { padding: 10px 12px; min-height: 62px; }
+.req-in small { color: var(--mute); font-size: 10px; display: block; margin-bottom: 2px; }
+.req-in p { margin: 0; font-size: 13px; line-height: 1.35; color: var(--ink); }
+.caret { display: inline-block; width: 1.5px; height: 13px; background: var(--teal); vertical-align: -2px; margin-left: 1px; animation: blink 1s steps(1) infinite; }
+.found { background: #F6FAF9; border-top: 1px solid var(--line2); padding: 8px 12px 10px; display: none; }
+.found.show { display: block; }
+.found small { color: var(--mint-d); font-weight: 600; font-size: 10.5px; display: block; margin-bottom: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.chip { display: inline-flex; align-items: center; gap: 5px; border: 1px solid var(--mint-100); background: var(--mint-50); border-radius: 999px; padding: 2px 9px 2px 3px; font-size: 10.5px; font-weight: 500; opacity: 0; transform: scale(.7); transition: opacity .3s, transform .35s cubic-bezier(.2,.9,.3,1.4); }
+.chip.in { opacity: 1; transform: none; }
+.chip i { width: 15px; height: 15px; border-radius: 50%; display: inline-block; }
+.quotes-h { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--mute); min-height: 16px; }
+.quotes-h b { color: var(--ink); font-family: var(--fd); font-size: 13px; }
+.offers { display: flex; flex-direction: column; gap: 7px; }
+.offer { background: var(--card); border: 1.5px solid var(--line); border-radius: 14px; padding: 8px 10px; display: grid; grid-template-columns: 30px 1fr auto; gap: 8px; align-items: center; opacity: 0; transform: translateY(12px) scale(.97); transition: opacity .45s ease, transform .45s cubic-bezier(.2,.9,.3,1.2), border-color .3s, box-shadow .3s; }
+.offer.in { opacity: 1; transform: none; }
+.offer.out { opacity: 0; transform: translateX(-18px); }
+.offer.best { border-color: var(--teal); box-shadow: 0 8px 20px -8px rgba(91,61,245,.45); }
+.av { width: 30px; height: 30px; border-radius: 50%; color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 10.5px; }
+.offer strong { display: block; font-size: 11.5px; line-height: 1.2; }
+.tag { display: inline-block; margin-top: 3px; font-size: 9px; font-weight: 700; padding: 1px 7px; border-radius: 6px; }
+.tag.match { background: var(--mint-50); color: var(--mint-d); }
+.tag.price { background: var(--amber-50); color: #A35E12; }
+.tag.fast { background: var(--blue-50); color: var(--blue); }
+.offer .pr { text-align: right; font-family: var(--fd); font-weight: 700; font-size: 15px; line-height: 1.1; }
+.offer .pr small { display: block; font-family: var(--ft); font-weight: 400; font-size: 9.5px; color: var(--mute); }
+.float-card { position: absolute; background: var(--card); border-radius: 16px; padding: 10px 14px; box-shadow: var(--sh-2); font-size: 12px; line-height: 1.35; display: flex; gap: 10px; align-items: center; max-width: 200px; animation: pop .7s cubic-bezier(.2,.9,.3,1.3) both, bob 5s ease-in-out infinite; }
+.float-card b { font-family: var(--fd); font-size: 18px; display: block; }
+.dot { width: 32px; height: 32px; border-radius: 10px; display: grid; place-items: center; flex: none; }
+.fc1 { left: -56px; bottom: -4px; animation-delay: .9s, 1.6s; }
+.fc2 { right: -40px; top: 70px; animation-delay: .6s, 0s; }
+
+@keyframes float { 0%, 100% { transform: rotate(-3deg) translateY(0); } 50% { transform: rotate(-2deg) translateY(-12px); } }
+@keyframes bob { 0%, 100% { translate: 0 0; } 50% { translate: 0 -8px; } }
+@keyframes pop { from { opacity: 0; scale: .7; } to { opacity: 1; scale: 1; } }
+@keyframes morph { 0%, 100% { border-radius: 46% 54% 52% 48% / 50% 44% 56% 50%; rotate: 0deg; } 50% { border-radius: 55% 45% 42% 58% / 44% 56% 48% 52%; rotate: 12deg; } }
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes pulse { 50% { opacity: .3; } }
+@keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+
+section { padding-block: 80px; }
+.eyebrow { font-weight: 600; font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--teal); }
+h2 { font-family: var(--fd); font-weight: 700; font-size: clamp(32px, 4.4vw, 52px); line-height: 1.05; letter-spacing: -.025em; margin: 10px 0 14px; text-wrap: balance; }
+h2 em { font-style: normal; color: var(--teal); }
+.sub { color: var(--ink2); font-size: 18px; max-width: 58ch; margin: 0; }
+
+/* Video */
+.video { margin-top: 36px; position: relative; border-radius: var(--r-xl); overflow: hidden; background: var(--deep); box-shadow: var(--sh-3); aspect-ratio: 16 / 9; max-width: 100%; }
+.video video { width: 100%; height: 100%; display: block; object-fit: cover; background: var(--deep); }
+.play-ov { position: absolute; inset: 0; border: 0; padding: 0; cursor: pointer; display: grid; place-items: center; background: linear-gradient(180deg, rgba(22,15,46,.05), rgba(22,15,46,.55)); color: #fff; }
+.play-ov .pbtn { width: 96px; height: 96px; border-radius: 50%; background: #fff; display: grid; place-items: center; box-shadow: 0 20px 50px rgba(0,0,0,.3); transition: transform .2s; }
+.play-ov:hover .pbtn { transform: scale(1.06); }
+.play-ov .pbtn::after { content: ""; border-left: 28px solid var(--teal); border-top: 17px solid transparent; border-bottom: 17px solid transparent; margin-left: 7px; }
+.play-ov span.cap { position: absolute; left: 28px; bottom: 22px; font-weight: 600; font-size: 16px; }
+
+/* Screens */
+.screens { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; margin-top: 44px; align-items: start; }
+.shot { text-align: center; }
+.shot .frame { background: var(--deep); border-radius: 38px; padding: 9px; box-shadow: var(--sh-2); max-width: 260px; margin: 0 auto; transition: transform .4s; }
+.shot .frame img { border-radius: 30px; }
+.shot:nth-child(2) .frame { transform: translateY(-24px); }
+.shot:hover .frame { transform: translateY(-8px); }
+.shot:nth-child(2):hover .frame { transform: translateY(-32px); }
+.shot h3 { font-family: var(--fd); font-size: 20px; margin: 22px 0 4px; }
+.shot p { color: var(--mute); margin: 0 auto; font-size: 15px; max-width: 30ch; }
+.desk { margin-top: 64px; background: var(--card); border-radius: var(--r-l); box-shadow: var(--sh-3); overflow: hidden; border: 1px solid var(--line); }
+.desk .bar { height: 38px; display: flex; align-items: center; gap: 7px; padding: 0 16px; border-bottom: 1px solid var(--line2); }
+.desk .bar i { width: 11px; height: 11px; border-radius: 50%; background: var(--line); }
+.desk .view { max-height: min(640px, 56vw); overflow: hidden; }
+.desk .bar span { margin-left: 12px; font-size: 12px; color: var(--mute); background: var(--bg); border-radius: 6px; padding: 3px 10px; }
+
+
+/* Feature illustrations (original, CSS only) */
+.feats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin-top: 44px; }
+.feat { background: var(--card); border: 1px solid var(--line); border-radius: var(--r-l); padding: 22px; box-shadow: var(--sh-1); }
+.feat h3 { font-family: var(--fd); font-size: 20px; margin: 18px 0 4px; }
+.feat p { color: var(--ink2); margin: 0; font-size: 15px; }
+.ill { position: relative; height: 190px; border-radius: 16px; background: var(--teal-50); overflow: hidden; }
+.ill-1 .bubble { position: absolute; left: 16px; right: 16px; top: 20px; background: #fff; border-radius: 14px; padding: 12px 14px; font-size: 14px; box-shadow: var(--sh-1); }
+.ill-1 .pill { position: absolute; bottom: 30px; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 999px; background: #fff; border: 1px solid var(--teal-100); }
+.ill-1 .p1 { left: 16px; color: var(--teal); } .ill-1 .p2 { left: 118px; color: var(--mint-d); border-color: var(--mint-100); }
+.ill-2 { display: grid; align-content: center; gap: 10px; padding: 0 16px; }
+.ill-2 .row { display: grid; grid-template-columns: 30px 1fr auto; gap: 10px; align-items: center; background: #fff; border-radius: 12px; padding: 9px 12px; border: 1.5px solid transparent; }
+.ill-2 .row i { width: 30px; height: 30px; border-radius: 50%; background: var(--teal-100); }
+.ill-2 .row b { height: 9px; border-radius: 5px; background: var(--line); }
+.ill-2 .row em { font-style: normal; font-family: var(--fd); font-weight: 700; }
+.ill-2 .hi { border-color: var(--teal); box-shadow: 0 8px 18px -8px rgba(91,61,245,.5); }
+.ill-3 { background: repeating-linear-gradient(0deg, transparent 0 34px, rgba(91,61,245,.07) 34px 36px), repeating-linear-gradient(90deg, transparent 0 34px, rgba(91,61,245,.07) 34px 36px), var(--teal-50); }
+.ill-3 .ring { position: absolute; left: 50%; top: 50%; border-radius: 50%; border: 2px dashed var(--teal); transform: translate(-50%, -50%); opacity: .5; }
+.ill-3 .r-a { width: 150px; height: 150px; } .ill-3 .r-b { width: 80px; height: 80px; }
+.ill-3 .me { position: absolute; left: 50%; top: 50%; width: 14px; height: 14px; margin: -7px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 0 6px rgba(91,61,245,.2); }
+.ill-3 .pin { position: absolute; width: 18px; height: 18px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg); background: var(--mint); }
+.ill-3 .pa { left: 30%; top: 26%; } .ill-3 .pb { left: 64%; top: 38%; background: var(--teal); } .ill-3 .pc { left: 40%; top: 64%; }
+@media (max-width: 960px) { .feats { grid-template-columns: 1fr; } }
+
+/* Steps */
+.steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-top: 40px; counter-reset: s; }
+.step { background: var(--card); border-radius: var(--r-l); padding: 26px 22px; border: 1px solid var(--line); box-shadow: var(--sh-1); }
+.step::before { counter-increment: s; content: counter(s); font-family: var(--fd); font-weight: 700; font-size: 16px; width: 40px; height: 40px; border-radius: 12px; background: var(--teal); color: #fff; display: grid; place-items: center; margin-bottom: 18px; }
+.step h3 { font-family: var(--fd); font-size: 21px; margin: 0 0 6px; line-height: 1.2; }
+.step p { margin: 0; color: var(--ink2); font-size: 15px; }
+.areas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.areas span { background: var(--card); border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; font-weight: 500; font-size: 15px; }
+
+/* Waitlist */
+.waitlist { background: var(--deep); color: #fff; border-radius: 36px; padding: 56px; display: grid; grid-template-columns: .9fr 1.1fr; gap: 48px; position: relative; overflow: hidden; }
+.waitlist::before { content: ""; position: absolute; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(255,122,89,.22), transparent 70%); left: -120px; bottom: -160px; }
+.waitlist > * { position: relative; }
+.waitlist .sub { color: #A7B5B8; }
+.waitlist .eyebrow { color: var(--mint); }
+.waitlist h2 em { color: var(--mint); }
+.countdown { display: flex; gap: 12px; margin-top: 28px; }
+.countdown div { background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; padding: 12px 16px; text-align: center; min-width: 76px; }
+.countdown b { display: block; font-family: var(--fd); font-size: 30px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.countdown small { color: #A7B5B8; font-size: 12px; }
+.card { background: var(--card); color: var(--ink); border-radius: 26px; padding: 28px; }
+.tabs { display: grid; grid-template-columns: 1fr 1fr; background: var(--bg); padding: 5px; border-radius: 999px; margin-bottom: 22px; }
+.tabs button { border: 0; background: transparent; padding: 11px; border-radius: 999px; font: 600 15px var(--ft); cursor: pointer; color: var(--mute); }
+.tabs button[aria-selected="true"] { background: var(--card); color: var(--ink); box-shadow: var(--sh-1); }
+form { display: grid; gap: 14px; }
+label.field, div.field { display: grid; gap: 6px; font-weight: 600; font-size: 14px; }
+input[type=email], select.inp { font: 500 16px var(--ft); padding: 14px 16px; border-radius: var(--r-m); border: 1.5px solid var(--line); background: #fff; width: 100%; color: var(--ink); }
+input[type=email]:focus, select.inp:focus { border-color: var(--teal); outline: none; }
+.radio { display: flex; gap: 10px; flex-wrap: wrap; }
+.radio label { display: flex; align-items: center; gap: 8px; border: 1.5px solid var(--line); border-radius: 999px; padding: 8px 14px; font-weight: 500; font-size: 14px; cursor: pointer; }
+.radio label:has(input:checked) { border-color: var(--teal); background: var(--teal-50); }
+.radio input { accent-color: var(--teal); }
+.consent { display: grid; grid-template-columns: auto 1fr; gap: 10px; font-size: 13px; color: var(--mute); align-items: start; }
+.consent input { margin-top: 3px; width: 18px; height: 18px; accent-color: var(--teal); }
+.hp { position: absolute; left: -5000px; }
+.err { color: var(--red); font-size: 14px; font-weight: 600; margin: 0; }
+.done { text-align: center; padding: 30px 10px; }
+.done .big { width: 64px; height: 64px; border-radius: 50%; background: var(--mint-50); color: var(--mint-d); display: grid; place-items: center; margin: 0 auto; font-size: 30px; }
+.done h3 { font-family: var(--fd); font-size: 26px; margin: 14px 0 6px; }
+.done p { color: var(--mute); margin: 0; }
+
+footer { padding-block: 40px; color: var(--mute); font-size: 14px; }
+footer .wrap { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+footer .brand { font-size: 18px; }
+
+.cookie { position: fixed; left: 20px; right: 20px; bottom: 20px; max-width: 520px; background: var(--card); border: 1px solid var(--line); border-radius: var(--r-l); padding: 18px 20px; box-shadow: var(--sh-3); z-index: 30; font-size: 14px; }
+.cookie p { margin: 0 0 12px; color: var(--ink2); }
+.cookie .row { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.vis { opacity: 1; transform: none; }
+
+@media (max-width: 960px) {
+  .hero, .waitlist { grid-template-columns: 1fr; }
+  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .waitlist { padding: 32px 22px; border-radius: 28px; }
+  .screens { grid-template-columns: 1fr; gap: 40px; }
+  .shot:nth-child(2) .frame { transform: none; }
+}
+@media (max-width: 560px) {
+  .steps { grid-template-columns: 1fr; }
+  .fc1, .fc2 { display: none; }
+  .nav-right .btn { display: none; }
+  .countdown div { min-width: 0; flex: 1; }
+  .play-ov .pbtn { width: 70px; height: 70px; }
+}
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } .reveal { opacity: 1; transform: none; } }
+</style>
+</head>
+<body>
+
+<nav class="top" id="nav">
+  <div class="wrap">
+    <a class="brand" href="#top"><span class="mark" style="width:34px;height:34px" aria-hidden="true"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="var(--teal)"/><path d="M8 16.5 16 9l8 7.5V24a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1z" fill="#fff"/><path d="m12.5 18.5 2.6 2.6 4.9-5.2" fill="none" stroke="var(--teal)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Tendra<span class="demo-tag">demo</span></a>
+    <div class="nav-right">
+      <label class="lang"><span class="sr" data-i18n="lang">Language</span><select id="lang" aria-label="Language"></select></label>
+      <a class="btn sm" href="#waitlist" data-i18n="navCta">Join the waitlist</a>
+    </div>
+  </div>
+</nav>
+
+<header class="wrap hero" id="top">
+  <div class="hero-copy">
+    <span class="badge"><i></i><span data-i18n="badge">Launching February 2027</span></span>
+    <h1 data-i18n-html="h1">Every job at home, <em>sorted.</em></h1>
+    <p class="lead" data-i18n="lead">Describe what your home, garden or office needs in your own words. Tendra finds the right services, verified providers send you offers, and you choose the best one.</p>
+    <div class="cta">
+      <a class="btn" href="#waitlist" data-tab="customer" data-i18n="ctaCustomer">I need a service</a>
+      <a class="btn ghost" href="#waitlist" data-tab="provider" data-i18n="ctaProvider">I provide services</a>
+    </div>
+    <div class="trust"><span data-i18n="t1">Free for customers</span><span data-i18n="t2">Verified providers</span><span data-i18n="t3">Offers in hours, not days</span></div>
+  </div>
+  <div class="stage" aria-hidden="true">
+    <div class="halo"></div>
+    <div class="ring"></div>
+    <div class="phone">
+      <div class="screen">
+        <div class="app-top"><b><span class="mark" style="width:20px;height:20px" aria-hidden="true"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="var(--teal)"/><path d="M8 16.5 16 9l8 7.5V24a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1z" fill="#fff"/><path d="m12.5 18.5 2.6 2.6 4.9-5.2" fill="none" stroke="var(--teal)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Tendra</b><span data-i18n="login">Log in</span></div>
+        <p class="app-h" data-i18n-html="appH">Tell us the job. <b>We'll find the pros.</b></p>
+        <div class="req">
+          <div class="req-in"><small data-i18n="appQ">What do you need?</small><p><span id="demo-typed"></span><span class="caret"></span></p></div>
+          <div class="found" id="demo-found"><small id="demo-found-t"></small><div class="chips" id="demo-chips"></div></div>
+        </div>
+        <div class="quotes-h"><b id="demo-qt"></b><span id="demo-qs"></span></div>
+        <div class="offers" id="demo-offers"></div>
+      </div>
+    </div>
+    <div class="float-card fc1"><span class="dot" style="background:var(--mint-50);color:var(--mint-d)">⚡</span><span><b>2 h</b><span data-i18n="fc1">average time to first offer</span></span></div>
+    <div class="float-card fc2"><span class="dot" style="background:var(--amber-50);color:var(--amber)">★</span><span><b>4.8</b><span data-i18n="fc2">average provider rating</span></span></div>
+  </div>
+</header>
+
+
+<section id="app">
+  <div class="wrap">
+    <div class="reveal">
+      <div class="eyebrow" data-i18n="sEyebrow">A first look</div>
+      <h2 data-i18n-html="sTitle">Simple for customers. <em>Clear for providers.</em></h2>
+      <p class="sub" data-i18n="sSub">A preview of the app you'll get access to at launch.</p>
+    </div>
+    <div class="feats">
+      <div class="feat reveal"><div class="ill ill-1" aria-hidden="true"><span class="bubble">“Fix the kitchen tap and paint the hallway”</span><span class="pill p1">Plumbing</span><span class="pill p2">Painting</span></div><h3 data-i18n="sh1">Describe it in your words</h3><p data-i18n="sp1">We recognise the services you need, even several in one sentence.</p></div>
+      <div class="feat reveal"><div class="ill ill-2" aria-hidden="true"><span class="row r1"><i></i><b></b><em>€85</em></span><span class="row r2 hi"><i></i><b></b><em>€79</em></span><span class="row r3"><i></i><b></b><em>€92</em></span></div><h3 data-i18n="sh2">Compare real offers</h3><p data-i18n="sp2">Best match, lowest price or fastest: see ratings, timing and a message from each provider.</p></div>
+      <div class="feat reveal"><div class="ill ill-3" aria-hidden="true"><span class="ring r-a"></span><span class="ring r-b"></span><span class="me"></span><span class="pin pa"></span><span class="pin pb"></span><span class="pin pc"></span></div><h3 data-i18n="sh3">Find providers nearby</h3><p data-i18n="sp3">See who works in your area on the map and pick the one that suits you.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="how">
+  <div class="wrap reveal">
+    <div class="eyebrow" data-i18n="hEyebrow">How it works</div>
+    <h2 data-i18n-html="hTitle">From "I need" to <em>"done"</em> in four steps</h2>
+    <div class="steps">
+      <div class="step"><h3 data-i18n="s1t">Describe your need</h3><p data-i18n="s1p">Write what needs doing, add photos and pick a time that suits you.</p></div>
+      <div class="step"><h3 data-i18n="s2t">We match providers</h3><p data-i18n="s2p">Tendra sends your request to verified providers who work in your area.</p></div>
+      <div class="step"><h3 data-i18n="s3t">Compare offers</h3><p data-i18n="s3p">See prices, ratings and availability side by side, and message them before you decide.</p></div>
+      <div class="step"><h3 data-i18n="s4t">Choose and relax</h3><p data-i18n="s4p">Pick the best offer. Your provider takes it from there.</p></div>
+    </div>
+    <div class="areas">
+      <span data-i18n="a1">Home</span><span data-i18n="a2">Garden</span><span data-i18n="a3">Construction</span><span data-i18n="a4">Installations</span><span data-i18n="a5">Pets</span><span data-i18n="a6">Vehicles</span><span data-i18n="a7">Personal services</span><span data-i18n="a8">Moving &amp; transport</span>
+    </div>
+  </div>
+</section>
+
+<section id="waitlist">
+  <div class="wrap">
+    <div class="waitlist reveal">
+      <div>
+        <div class="eyebrow" data-i18n="wEyebrow">Early access</div>
+        <h2 data-i18n-html="wTitle">Be first when Tendra opens <em>in your country</em></h2>
+        <p class="sub" data-i18n="wSub">Join the waitlist today. Customers get early access, providers get a free founding profile.</p>
+        <div class="countdown" id="countdown" aria-label="Time until launch"></div>
+      </div>
+      <div class="card" id="form-card">
+        <div class="tabs" role="tablist">
+          <button type="button" role="tab" id="tab-customer" aria-selected="true" data-type="customer" data-i18n="tabCustomer">I need services</button>
+          <button type="button" role="tab" id="tab-provider" aria-selected="false" data-type="provider" data-i18n="tabProvider">I provide services</button>
+        </div>
+        <form id="wl-form" novalidate>
+          <label class="field" for="f-email"><span data-i18n="fEmail">Email address</span>
+            <input id="f-email" type="email" name="email" autocomplete="email" required placeholder="you@example.com">
+          </label>
+          <label class="field" for="f-country"><span id="country-label" data-i18n="fCountryC">Country of residence</span>
+            <select id="f-country" class="inp" name="country" required></select>
+          </label>
+          <div class="field"><span data-i18n="fType">I am (optional)</span>
+            <div class="radio">
+              <label><input type="radio" name="kind" value="individual"> <span data-i18n="individual">An individual</span></label>
+              <label><input type="radio" name="kind" value="business"> <span data-i18n="business">A business</span></label>
+            </div>
+          </div>
+          <input class="hp" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <label class="consent"><input type="checkbox" id="f-consent" required> <span data-i18n="consent">I agree to receive emails about the Tendra launch and updates. I can unsubscribe at any time.</span></label>
+          <p class="err" id="f-err" role="alert" hidden></p>
+          <button class="btn" type="submit" data-i18n="submit">Join the waitlist</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span class="brand"><span class="mark" style="width:26px;height:26px" aria-hidden="true"><svg viewBox="0 0 32 32"><rect width="32" height="32" rx="9" fill="var(--teal)"/><path d="M8 16.5 16 9l8 7.5V24a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1z" fill="#fff"/><path d="m12.5 18.5 2.6 2.6 4.9-5.2" fill="none" stroke="var(--teal)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Tendra</span>
+    <span data-i18n="foot">Home · Garden · Office services, launching February 2027</span>
+    <span>© 2026 Tendra</span>
+  </div>
+</footer>
+
+<div class="cookie" id="cookie" hidden>
+  <p data-i18n="cookie">We use privacy-friendly analytics to count visits and sign-ups. Your email is never shared with analytics.</p>
+  <div class="row">
+    <button class="btn sm" type="button" data-consent="yes" data-i18n="accept">Accept analytics</button>
+    <button class="btn sm ghost" type="button" data-consent="no" data-i18n="decline">Decline</button>
+  </div>
+</div>
+
+<script>
+/* ================= Content (edit texts here) ================= */
+const I18N = {
+  en: { lang: "Language", navCta: "Join the waitlist", badge: "Launching February 2027", h1: "Every job at home, <em>sorted.</em>", lead: "Describe what your home, garden or office needs in your own words. Tendra finds the right services, verified providers send you offers, and you choose the best one.", ctaCustomer: "I need a service", ctaProvider: "I provide services", t1: "Free for customers", t2: "Verified providers", t3: "Offers in hours, not days", login: "Log in", appH: "Tell us the job. <b>We'll find the pros.</b>", appQ: "What do you need?", fc1: "average time to first offer", fc2: "average provider rating", vEyebrow: "See it in action", vTitle: "One request. Real offers. <em>Your choice.</em>", vSub: "Watch how Tendra turns a simple description into offers from providers near you.", vNote: "Watch the Tendra film", sEyebrow: "A first look", sTitle: "Simple for customers. <em>Clear for providers.</em>", sSub: "A preview of the Tendra app you'll get access to at launch.", sh1: "Describe it in your words", sp1: "Tendra recognises the services you need, even several in one sentence.", sh2: "Compare real offers", sp2: "Best match, lowest price or fastest: see ratings, timing and a message from each provider.", sh3: "Find providers nearby", sp3: "See who works in your area on the map and pick the one that suits you.", hEyebrow: "How it works", hTitle: "From \"I need\" to <em>\"done\"</em> in four steps", s1t: "Describe your need", s1p: "Write what needs doing, add photos and pick a time that suits you.", s2t: "We match providers", s2p: "Tendra sends your request to verified providers who work in your area.", s3t: "Compare offers", s3p: "See prices, ratings and availability side by side, and message them before you decide.", s4t: "Choose and relax", s4p: "Pick the best offer. Your provider takes it from there.", a1: "Home", a2: "Garden", a3: "Construction", a4: "Installations", a5: "Pets", a6: "Vehicles", a7: "Personal services", a8: "Moving & transport", wEyebrow: "Early access", wTitle: "Be first when Tendra opens <em>in your country</em>", wSub: "Join the waitlist today. Customers get early access, providers get a free founding profile.", tabCustomer: "I need services", tabProvider: "I provide services", fEmail: "Email address", fCountryC: "Country of residence", fCountryP: "Country where you provide services", fType: "I am (optional)", individual: "An individual", business: "A business", consent: "I agree to receive emails about the Tendra launch and updates. I can unsubscribe at any time.", submit: "Join the waitlist", errEmail: "Please enter a valid email address.", errCountry: "Please choose a country.", errConsent: "Please confirm you agree to receive launch emails.", doneT: "You're on the list!", doneC: "We'll email you as soon as Tendra opens in {country}.", doneP: "Thanks! We'll invite you to create your founding provider profile before launch.", again: "Add another email", days: "days", hours: "hours", mins: "min", foot: "Home · Garden · Office services, launching February 2027", cookie: "We use privacy-friendly analytics to count visits and sign-ups. Your email is never shared with analytics.", accept: "Accept analytics", decline: "Decline", choose: "Choose a country" },
+  es: { lang: "Idioma", navCta: "Únete a la lista", badge: "Lanzamiento en febrero de 2027", h1: "Cada tarea de tu casa, <em>resuelta.</em>", lead: "Describe con tus palabras lo que necesita tu casa, jardín u oficina. Tendra detecta los servicios, profesionales verificados te envían ofertas y tú eliges la mejor.", ctaCustomer: "Necesito un servicio", ctaProvider: "Ofrezco servicios", t1: "Gratis para clientes", t2: "Profesionales verificados", t3: "Ofertas en horas, no en días", login: "Entrar", appH: "Cuéntanos la tarea. <b>Buscamos profesionales.</b>", appQ: "¿Qué necesitas?", fc1: "tiempo medio hasta la primera oferta", fc2: "valoración media de profesionales", vEyebrow: "Míralo en acción", vTitle: "Una solicitud. Ofertas reales. <em>Tú decides.</em>", vSub: "Mira cómo Tendra convierte una descripción sencilla en ofertas de profesionales cerca de ti.", vNote: "Ver el vídeo de Tendra", sEyebrow: "Un primer vistazo", sTitle: "Sencillo para clientes. <em>Claro para profesionales.</em>", sSub: "Así es la app de Tendra a la que tendrás acceso en el lanzamiento.", sh1: "Descríbelo con tus palabras", sp1: "Tendra reconoce los servicios que necesitas, incluso varios en una frase.", sh2: "Compara ofertas reales", sp2: "Mejor opción, precio más bajo o más rápida: valoraciones, plazos y un mensaje de cada profesional.", sh3: "Encuentra profesionales cerca", sp3: "Ve en el mapa quién trabaja en tu zona y elige el que más te convenga.", hEyebrow: "Cómo funciona", hTitle: "De \"lo necesito\" a <em>\"hecho\"</em> en cuatro pasos", s1t: "Describe lo que necesitas", s1p: "Escribe qué hay que hacer, añade fotos y elige cuándo te viene bien.", s2t: "Buscamos profesionales", s2p: "Tendra envía tu solicitud a profesionales verificados de tu zona.", s3t: "Compara ofertas", s3p: "Precios, valoraciones y disponibilidad lado a lado, y mensajes antes de decidir.", s4t: "Elige y despreocúpate", s4p: "Escoge la mejor oferta. Tu profesional se encarga del resto.", a1: "Hogar", a2: "Jardín", a3: "Construcción", a4: "Instalaciones", a5: "Mascotas", a6: "Vehículos", a7: "Servicios personales", a8: "Mudanzas y transporte", wEyebrow: "Acceso anticipado", wTitle: "Sé el primero cuando Tendra llegue <em>a tu país</em>", wSub: "Únete hoy a la lista. Los clientes tendrán acceso anticipado y los profesionales un perfil fundador gratis.", tabCustomer: "Necesito servicios", tabProvider: "Ofrezco servicios", fEmail: "Correo electrónico", fCountryC: "País de residencia", fCountryP: "País donde ofreces servicios", fType: "Soy (opcional)", individual: "Particular", business: "Empresa", consent: "Acepto recibir correos sobre el lanzamiento y novedades de Tendra. Puedo darme de baja cuando quiera.", submit: "Unirme a la lista", errEmail: "Introduce un correo válido.", errCountry: "Elige un país.", errConsent: "Confirma que aceptas recibir correos del lanzamiento.", doneT: "¡Ya estás en la lista!", doneC: "Te escribiremos en cuanto Tendra abra en {country}.", doneP: "¡Gracias! Te invitaremos a crear tu perfil fundador antes del lanzamiento.", again: "Añadir otro correo", days: "días", hours: "horas", mins: "min", foot: "Servicios para hogar, jardín y oficina · febrero de 2027", cookie: "Usamos analítica respetuosa con la privacidad para contar visitas y registros. Tu correo nunca se comparte con la analítica.", accept: "Aceptar analítica", decline: "Rechazar", choose: "Elige un país" },
+  de: { lang: "Sprache", navCta: "Auf die Warteliste", badge: "Start im Februar 2027", h1: "Jeder Job im Haus, <em>erledigt.</em>", lead: "Beschreibe in deinen Worten, was dein Zuhause, Garten oder Büro braucht. Tendra erkennt die Services, geprüfte Anbieter schicken dir Angebote und du wählst das beste.", ctaCustomer: "Ich brauche einen Service", ctaProvider: "Ich biete Services an", t1: "Kostenlos für Kunden", t2: "Geprüfte Anbieter", t3: "Angebote in Stunden, nicht Tagen", login: "Anmelden", appH: "Beschreib den Job. <b>Wir finden Profis.</b>", appQ: "Was brauchst du?", fc1: "bis zum ersten Angebot", fc2: "durchschnittliche Anbieterbewertung", vEyebrow: "So funktioniert's", vTitle: "Eine Anfrage. Echte Angebote. <em>Deine Wahl.</em>", vSub: "Sieh, wie Tendra aus einer einfachen Beschreibung Angebote von Anbietern in deiner Nähe macht.", vNote: "Tendra-Film ansehen", sEyebrow: "Ein erster Blick", sTitle: "Einfach für Kunden. <em>Klar für Anbieter.</em>", sSub: "Eine Vorschau der Tendra-App, auf die du zum Start Zugriff bekommst.", sh1: "Beschreib es in deinen Worten", sp1: "Tendra erkennt die Services, die du brauchst, auch mehrere in einem Satz.", sh2: "Echte Angebote vergleichen", sp2: "Beste Wahl, günstigster Preis oder am schnellsten: Bewertungen, Termine und eine Nachricht jedes Anbieters.", sh3: "Anbieter in der Nähe", sp3: "Sieh auf der Karte, wer in deiner Gegend arbeitet, und wähle den passenden.", hEyebrow: "Ablauf", hTitle: "Von \"ich brauche\" zu <em>\"erledigt\"</em> in vier Schritten", s1t: "Bedarf beschreiben", s1p: "Schreib, was zu tun ist, füge Fotos hinzu und wähle einen Termin.", s2t: "Wir finden Anbieter", s2p: "Tendra schickt deine Anfrage an geprüfte Anbieter in deiner Region.", s3t: "Angebote vergleichen", s3p: "Preise, Bewertungen und Verfügbarkeit nebeneinander, Nachrichten inklusive.", s4t: "Wählen und entspannen", s4p: "Nimm das beste Angebot. Dein Anbieter übernimmt den Rest.", a1: "Zuhause", a2: "Garten", a3: "Bau", a4: "Installationen", a5: "Haustiere", a6: "Fahrzeuge", a7: "Persönliche Services", a8: "Umzug & Transport", wEyebrow: "Früher Zugang", wTitle: "Sei dabei, wenn Tendra <em>in deinem Land</em> startet", wSub: "Trag dich heute ein. Kunden erhalten frühen Zugang, Anbieter ein kostenloses Gründerprofil.", tabCustomer: "Ich brauche Services", tabProvider: "Ich biete Services an", fEmail: "E-Mail-Adresse", fCountryC: "Wohnsitzland", fCountryP: "Land, in dem du Services anbietest", fType: "Ich bin (optional)", individual: "Privatperson", business: "Unternehmen", consent: "Ich möchte E-Mails zum Start und zu Neuigkeiten von Tendra erhalten. Abmeldung jederzeit möglich.", submit: "Eintragen", errEmail: "Bitte gib eine gültige E-Mail-Adresse ein.", errCountry: "Bitte wähle ein Land.", errConsent: "Bitte bestätige den Erhalt der Start-E-Mails.", doneT: "Du bist auf der Liste!", doneC: "Wir melden uns, sobald Tendra in {country} startet.", doneP: "Danke! Wir laden dich vor dem Start zu deinem Gründerprofil ein.", again: "Weitere E-Mail eintragen", days: "Tage", hours: "Std.", mins: "Min.", foot: "Services für Zuhause, Garten und Büro · Februar 2027", cookie: "Wir nutzen datenschutzfreundliche Statistik, um Besuche und Anmeldungen zu zählen. Deine E-Mail wird nie an die Statistik weitergegeben.", accept: "Statistik erlauben", decline: "Ablehnen", choose: "Land wählen" },
+  pl: { lang: "Język", navCta: "Dołącz do listy", badge: "Start w lutym 2027", h1: "Każda praca w domu, <em>załatwiona.</em>", lead: "Opisz własnymi słowami, czego potrzebuje twój dom, ogród lub biuro. Tendra rozpozna usługi, zweryfikowani wykonawcy wyślą oferty, a ty wybierzesz najlepszą.", ctaCustomer: "Potrzebuję usługi", ctaProvider: "Świadczę usługi", t1: "Bezpłatnie dla klientów", t2: "Zweryfikowani wykonawcy", t3: "Oferty w godzinach, nie dniach", login: "Zaloguj", appH: "Opisz zadanie. <b>Znajdziemy fachowców.</b>", appQ: "Czego potrzebujesz?", fc1: "średni czas do pierwszej oferty", fc2: "średnia ocena wykonawców", vEyebrow: "Zobacz w działaniu", vTitle: "Jedno zlecenie. Prawdziwe oferty. <em>Twój wybór.</em>", vSub: "Zobacz, jak Tendra zamienia prosty opis w oferty wykonawców z twojej okolicy.", vNote: "Obejrzyj film Tendra", sEyebrow: "Pierwsze spojrzenie", sTitle: "Proste dla klientów. <em>Przejrzyste dla wykonawców.</em>", sSub: "Podgląd aplikacji Tendra, do której dostaniesz dostęp w dniu startu.", sh1: "Opisz to własnymi słowami", sp1: "Tendra rozpoznaje potrzebne usługi, nawet kilka w jednym zdaniu.", sh2: "Porównaj prawdziwe oferty", sp2: "Najlepsze dopasowanie, najniższa cena lub najszybciej: oceny, terminy i wiadomość od każdego wykonawcy.", sh3: "Wykonawcy w pobliżu", sp3: "Zobacz na mapie, kto działa w twojej okolicy, i wybierz najlepszego.", hEyebrow: "Jak to działa", hTitle: "Od \"potrzebuję\" do <em>\"gotowe\"</em> w czterech krokach", s1t: "Opisz potrzebę", s1p: "Napisz, co trzeba zrobić, dodaj zdjęcia i wybierz termin.", s2t: "Dobieramy wykonawców", s2p: "Tendra wysyła zlecenie do zweryfikowanych wykonawców z twojej okolicy.", s3t: "Porównaj oferty", s3p: "Ceny, oceny i dostępność obok siebie, a przed decyzją możesz napisać.", s4t: "Wybierz i odpocznij", s4p: "Wybierz najlepszą ofertę. Resztą zajmie się wykonawca.", a1: "Dom", a2: "Ogród", a3: "Budowa", a4: "Instalacje", a5: "Zwierzęta", a6: "Pojazdy", a7: "Usługi osobiste", a8: "Przeprowadzki i transport", wEyebrow: "Wczesny dostęp", wTitle: "Bądź pierwszy, gdy Tendra wystartuje <em>w twoim kraju</em>", wSub: "Dołącz dziś. Klienci dostaną wczesny dostęp, wykonawcy darmowy profil założycielski.", tabCustomer: "Potrzebuję usług", tabProvider: "Świadczę usługi", fEmail: "Adres e-mail", fCountryC: "Kraj zamieszkania", fCountryP: "Kraj, w którym świadczysz usługi", fType: "Jestem (opcjonalnie)", individual: "Osobą prywatną", business: "Firmą", consent: "Zgadzam się na e-maile o starcie i nowościach Tendra. Mogę zrezygnować w każdej chwili.", submit: "Dołącz do listy", errEmail: "Podaj poprawny adres e-mail.", errCountry: "Wybierz kraj.", errConsent: "Potwierdź zgodę na e-maile o starcie.", doneT: "Jesteś na liście!", doneC: "Napiszemy, gdy tylko Tendra wystartuje w kraju: {country}.", doneP: "Dziękujemy! Przed startem zaprosimy cię do utworzenia profilu założycielskiego.", again: "Dodaj kolejny e-mail", days: "dni", hours: "godz.", mins: "min", foot: "Usługi dla domu, ogrodu i biura · luty 2027", cookie: "Używamy przyjaznej prywatności analityki do liczenia wizyt i zapisów. Twój e-mail nigdy nie trafia do analityki.", accept: "Akceptuj analitykę", decline: "Odrzuć", choose: "Wybierz kraj" },
+  cs: { lang: "Jazyk", navCta: "Přidat se na seznam", badge: "Spouštíme v únoru 2027", h1: "Každá práce doma, <em>vyřešená.</em>", lead: "Popište vlastními slovy, co potřebuje váš domov, zahrada nebo kancelář. Tendra rozpozná služby, ověření poskytovatelé pošlou nabídky a vy vyberete tu nejlepší.", ctaCustomer: "Potřebuji službu", ctaProvider: "Nabízím služby", t1: "Zdarma pro zákazníky", t2: "Ověření poskytovatelé", t3: "Nabídky během hodin, ne dnů", login: "Přihlásit", appH: "Popište práci. <b>Najdeme odborníky.</b>", appQ: "Co potřebujete?", fc1: "průměrná doba do první nabídky", fc2: "průměrné hodnocení poskytovatelů", vEyebrow: "Podívejte se", vTitle: "Jedna poptávka. Skutečné nabídky. <em>Vaše volba.</em>", vSub: "Podívejte se, jak Tendra promění jednoduchý popis v nabídky poskytovatelů ve vašem okolí.", vNote: "Přehrát film Tendra", sEyebrow: "První pohled", sTitle: "Jednoduché pro zákazníky. <em>Přehledné pro poskytovatele.</em>", sSub: "Ukázka aplikace Tendra, ke které získáte přístup při spuštění.", sh1: "Popište to vlastními slovy", sp1: "Tendra rozpozná potřebné služby, i několik v jedné větě.", sh2: "Porovnejte skutečné nabídky", sp2: "Nejlepší shoda, nejnižší cena nebo nejrychlejší: hodnocení, termíny a zpráva od každého poskytovatele.", sh3: "Poskytovatelé poblíž", sp3: "Na mapě uvidíte, kdo pracuje ve vašem okolí, a vyberete si.", hEyebrow: "Jak to funguje", hTitle: "Od \"potřebuji\" k <em>\"hotovo\"</em> ve čtyřech krocích", s1t: "Popište potřebu", s1p: "Napište, co je třeba udělat, přidejte fotky a zvolte termín.", s2t: "Najdeme poskytovatele", s2p: "Tendra pošle poptávku ověřeným poskytovatelům ve vaší oblasti.", s3t: "Porovnejte nabídky", s3p: "Ceny, hodnocení a dostupnost vedle sebe, se zprávami před rozhodnutím.", s4t: "Vyberte a odpočívejte", s4p: "Zvolte nejlepší nabídku. Zbytek zařídí poskytovatel.", a1: "Domov", a2: "Zahrada", a3: "Stavebnictví", a4: "Instalace", a5: "Zvířata", a6: "Vozidla", a7: "Osobní služby", a8: "Stěhování a doprava", wEyebrow: "Předčasný přístup", wTitle: "Buďte první, až Tendra spustí <em>ve vaší zemi</em>", wSub: "Přidejte se ještě dnes. Zákazníci získají předčasný přístup, poskytovatelé zakládající profil zdarma.", tabCustomer: "Potřebuji služby", tabProvider: "Nabízím služby", fEmail: "E-mailová adresa", fCountryC: "Země bydliště", fCountryP: "Země, kde poskytujete služby", fType: "Jsem (volitelné)", individual: "Fyzická osoba", business: "Firma", consent: "Souhlasím se zasíláním e-mailů o spuštění a novinkách Tendra. Odhlásit se mohu kdykoli.", submit: "Přidat se", errEmail: "Zadejte platný e-mail.", errCountry: "Vyberte zemi.", errConsent: "Potvrďte souhlas se zasíláním e-mailů.", doneT: "Jste na seznamu!", doneC: "Ozveme se, jakmile Tendra spustí v zemi {country}.", doneP: "Děkujeme! Před spuštěním vás pozveme k vytvoření zakládajícího profilu.", again: "Přidat další e-mail", days: "dní", hours: "hod.", mins: "min", foot: "Služby pro domov, zahradu a kancelář · únor 2027", cookie: "Používáme analytiku šetrnou k soukromí pro počítání návštěv a registrací. Váš e-mail se do analytiky nikdy nedostane.", accept: "Povolit analytiku", decline: "Odmítnout", choose: "Vyberte zemi" }
+};
+
+/* Hero demo, modelled on the Tendra app screens */
+const C = { green: "#D9532F", blue: "#0677BA", amber: "#E8912C", teal: "#5B3DF5" };
+const DEMO = [
+  { chips: [C.green, C.blue, C.amber], offers: [["SH", "ShineHouse", "match", 320, 2, C.teal], ["BW", "BrightWash", "price", 285, 3, C.green], ["QT", "QuickTidy", "fast", 390, 1, C.blue]] },
+  { chips: [C.green, C.green], offers: [["GM", "GreenMate", "match", 120, 2, C.teal], ["TP", "TidyPlot", "price", 95, 4, C.green], ["LB", "Leaf & Blade", "fast", 140, 1, C.blue]] },
+  { chips: [C.blue], offers: [["CD", "CleanDesk", "match", 140, 2, C.teal], ["NW", "NeatWorks", "price", 129, 3, C.green], ["SP", "Sparkle Team", "fast", 155, 1, C.blue]] }
+];
+const DEMO_TEXT = {
+  en: { s: ["I need to clean my house, wash my windows and wash my car.", "Trim the hedge and mow the lawn this week.", "Weekly cleaning for our 120 m² office."], chips: [["Cleaning", "Window cleaning", "Car washing"], ["Hedge trimming", "Lawn mowing"], ["Office cleaning"]], found: "We found {n} services", found1: "We found 1 service", offers: "Offers", recv: "3 received", match: "Best match", price: "Lowest price", fast: "Fastest", days: "days", day: "day" },
+  es: { s: ["Necesito limpiar mi casa, lavar las ventanas y lavar el coche.", "Podar el seto y cortar el césped esta semana.", "Limpieza semanal de nuestra oficina de 120 m²."], chips: [["Limpieza", "Limpieza de ventanas", "Lavado de coche"], ["Poda de setos", "Corte de césped"], ["Limpieza de oficinas"]], found: "Encontramos {n} servicios", found1: "Encontramos 1 servicio", offers: "Ofertas", recv: "3 recibidas", match: "Mejor opción", price: "Precio más bajo", fast: "Más rápida", days: "días", day: "día" },
+  de: { s: ["Ich muss mein Haus putzen, die Fenster putzen und das Auto waschen.", "Hecke schneiden und Rasen mähen diese Woche.", "Wöchentliche Reinigung unseres 120 m² Büros."], chips: [["Reinigung", "Fensterreinigung", "Autowäsche"], ["Heckenschnitt", "Rasenmähen"], ["Büroreinigung"]], found: "{n} Services gefunden", found1: "1 Service gefunden", offers: "Angebote", recv: "3 erhalten", match: "Beste Wahl", price: "Günstigster Preis", fast: "Am schnellsten", days: "Tage", day: "Tag" },
+  pl: { s: ["Muszę posprzątać dom, umyć okna i umyć samochód.", "Przyciąć żywopłot i skosić trawnik w tym tygodniu.", "Cotygodniowe sprzątanie naszego biura 120 m²."], chips: [["Sprzątanie", "Mycie okien", "Mycie auta"], ["Przycinanie żywopłotu", "Koszenie trawnika"], ["Sprzątanie biur"]], found: "Znaleźliśmy {n} usługi", found1: "Znaleźliśmy 1 usługę", offers: "Oferty", recv: "3 otrzymane", match: "Najlepsze dopasowanie", price: "Najniższa cena", fast: "Najszybciej", days: "dni", day: "dzień" },
+  cs: { s: ["Potřebuji uklidit dům, umýt okna a umýt auto.", "Ostříhat živý plot a posekat trávník tento týden.", "Týdenní úklid naší kanceláře 120 m²."], chips: [["Úklid", "Mytí oken", "Mytí auta"], ["Stříhání plotu", "Sekání trávníku"], ["Úklid kanceláří"]], found: "Našli jsme {n} služby", found1: "Našli jsme 1 službu", offers: "Nabídky", recv: "3 přijaté", match: "Nejlepší shoda", price: "Nejnižší cena", fast: "Nejrychlejší", days: "dny", day: "den" }
+};
+
+const LANG_NAMES = { en: "English", es: "Español", de: "Deutsch", pl: "Polski", cs: "Čeština" };
+const COUNTRIES = ["AT","BE","CH","CZ","DE","DK","ES","FI","FR","GB","HU","IE","IT","NL","NO","PL","PT","SE","SK","US","CA","MX","CO","AR","AU"];
+const LAUNCH = new Date("2027-02-01T09:00:00Z");
+const params = new URLSearchParams(location.search);
+const RECORDING = params.has("rec");   // fixed timings for screen recordings
+const STATIC = params.has("shot");     // static render for screenshots
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const $ = (s) => document.querySelector(s);
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch {} }
+};
+let lang = "en";
+let formType = "customer";
+const t = (k) => (I18N[lang] && I18N[lang][k]) || I18N.en[k] || k;
+const dt = () => DEMO_TEXT[lang] || DEMO_TEXT.en;
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/* ---------- Language ---------- */
+function detectLang() {
+  const saved = store.get("tendra.lang");
+  if (saved && I18N[saved]) return saved;
+  for (const l of navigator.languages || [navigator.language || "en"]) {
+    const code = l.slice(0, 2).toLowerCase();
+    if (I18N[code]) return code;
+  }
+  return "en";
+}
+function applyLang(code) {
+  lang = code;
+  document.documentElement.lang = code;
+  document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = t(el.dataset.i18n); });
+  document.querySelectorAll("[data-i18n-html]").forEach((el) => { el.innerHTML = t(el.dataset.i18nHtml); });
+  $("#country-label").textContent = t(formType === "customer" ? "fCountryC" : "fCountryP");
+  fillCountries();
+  renderCountdown();
+  playDemo();
+  store.set("tendra.lang", code);
+}
+function fillCountries() {
+  const sel = $("#f-country");
+  const current = sel.value;
+  let names;
+  try { names = new Intl.DisplayNames([lang], { type: "region" }); } catch { names = null; }
+  const opts = COUNTRIES.map((c) => ({ c, n: names ? names.of(c) : c })).sort((a, b) => a.n.localeCompare(b.n, lang));
+  sel.innerHTML = `<option value="">${t("choose")}</option>` + opts.map((o) => `<option value="${o.c}">${o.n}</option>`).join("");
+  if (current) sel.value = current;
+  else {
+    const guess = (navigator.language || "").split("-")[1];
+    if (guess && COUNTRIES.includes(guess.toUpperCase())) sel.value = guess.toUpperCase();
+  }
+}
+function renderCountdown() {
+  const ms = Math.max(0, LAUNCH - Date.now());
+  const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60;
+  $("#countdown").innerHTML = `<div><b>${d}</b><small>${t("days")}</small></div><div><b>${h}</b><small>${t("hours")}</small></div><div><b>${m}</b><small>${t("mins")}</small></div>`;
+}
+
+/* ---------- Hero demo ---------- */
+let demoRun = 0;
+function chipsHtml(i) {
+  return dt().chips[i].map((name, k) => `<span class="chip"><i style="background:${DEMO[i].chips[k]}"></i>${esc(name)}</span>`).join("");
+}
+function offersHtml(i) {
+  const x = dt();
+  return DEMO[i].offers.map(([ini, name, badge, price, days, color]) =>
+    `<div class="offer" data-badge="${badge}"><span class="av" style="background:${color}">${ini}</span><span><strong>${esc(name)}</strong><span class="tag ${badge}">${x[badge]}</span></span><span class="pr">€${price}<small>${days} ${days === 1 ? x.day : x.days}</small></span></div>`).join("");
+}
+function foundText(i) { const n = DEMO[i].chips.length; return n === 1 ? dt().found1 : dt().found.replace("{n}", n); }
+function showStatic(i) {
+  $("#demo-typed").textContent = dt().s[i];
+  $("#demo-found-t").textContent = "✓ " + foundText(i);
+  $("#demo-chips").innerHTML = chipsHtml(i);
+  $("#demo-found").classList.add("show");
+  document.querySelectorAll(".chip").forEach((c) => c.classList.add("in"));
+  $("#demo-qt").textContent = dt().offers; $("#demo-qs").textContent = dt().recv;
+  $("#demo-offers").innerHTML = offersHtml(i);
+  document.querySelectorAll(".offer").forEach((o) => { o.classList.add("in"); if (o.dataset.badge === "match") o.classList.add("best"); });
+}
+async function playDemo() {
+  const run = ++demoRun;
+  const alive = () => run === demoRun;
+  if (STATIC || reduceMotion) { showStatic(0); return; }
+  for (let i = 0; alive(); i = (i + 1) % DEMO.length) {
+    document.querySelectorAll(".offer").forEach((o) => o.classList.add("out"));
+    await sleep(400); if (!alive()) return;
+    $("#demo-offers").innerHTML = ""; $("#demo-qt").textContent = ""; $("#demo-qs").textContent = "";
+    $("#demo-found").classList.remove("show"); $("#demo-chips").innerHTML = "";
+    const typed = $("#demo-typed"); typed.textContent = "";
+    for (const ch of dt().s[i]) { typed.textContent += ch; await sleep(RECORDING ? 45 : 32 + Math.random() * 34); if (!alive()) return; }
+    await sleep(350); if (!alive()) return;
+    $("#demo-found-t").textContent = "✓ " + foundText(i);
+    $("#demo-chips").innerHTML = chipsHtml(i);
+    $("#demo-found").classList.add("show");
+    for (const c of document.querySelectorAll(".chip")) { await sleep(220); if (!alive()) return; c.classList.add("in"); }
+    await sleep(600); if (!alive()) return;
+    $("#demo-qt").textContent = dt().offers; $("#demo-qs").textContent = dt().recv;
+    $("#demo-offers").innerHTML = offersHtml(i);
+    for (const o of document.querySelectorAll(".offer")) { await sleep(360); if (!alive()) return; o.classList.add("in"); }
+    await sleep(500); if (!alive()) return;
+    document.querySelector('.offer[data-badge="match"]')?.classList.add("best");
+    await sleep(3400);
+  }
+}
+
+/* ---------- Analytics (consent-based; GA4 via gtag in production) ---------- */
+function track(event, p = {}) {
+  if (store.get("tendra.consent") !== "yes") return;
+  if (window.gtag) window.gtag("event", event, p);
+  else console.info("[analytics]", event, p);
+}
+
+/* ---------- Waitlist form ---------- */
+function setType(type) {
+  formType = type;
+  document.querySelectorAll(".tabs button").forEach((b) => b.setAttribute("aria-selected", b.dataset.type === type));
+  $("#country-label").textContent = t(type === "customer" ? "fCountryC" : "fCountryP");
+}
+$("#wl-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const f = e.target, err = $("#f-err");
+  const show = (msg) => { err.textContent = msg; err.hidden = false; };
+  if (f.website.value) return; // honeypot
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(f.email.value.trim())) return show(t("errEmail"));
+  if (!f.country.value) return show(t("errCountry"));
+  if (!$("#f-consent").checked) return show(t("errConsent"));
+  err.hidden = true;
+  const payload = { type: formType, email: f.email.value.trim(), country: f.country.value, kind: f.kind.value || null, lang, consent: true, at: new Date().toISOString() };
+  // Production: send payload to the mailing tool (Brevo / MailerLite, one list per type).
+  console.info("[waitlist]", { ...payload, email: "(hidden)" });
+  track("waitlist_signup", { form_type: formType, country: f.country.value });
+  const countryName = f.country.options[f.country.selectedIndex].text;
+  $("#form-card").innerHTML = `<div class="done"><div class="big">✓</div><h3>${t("doneT")}</h3><p>${formType === "customer" ? t("doneC").replace("{country}", esc(countryName)) : t("doneP")}</p><p style="margin-top:18px"><a href="#waitlist" onclick="location.reload()">${t("again")}</a></p></div>`;
+});
+
+document.addEventListener("click", (e) => {
+  const tab = e.target.closest("[data-type]");
+  if (tab) { setType(tab.dataset.type); track("form_tab", { form_type: tab.dataset.type }); }
+  const cta = e.target.closest("[data-tab]");
+  if (cta) setType(cta.dataset.tab);
+  const c = e.target.closest("[data-consent]");
+  if (c) { store.set("tendra.consent", c.dataset.consent); $("#cookie").hidden = true; track("page_view_consented"); }
+});
+$("#f-email").addEventListener("focus", () => track("form_start", { form_type: formType }), { once: true });
+$("#lang").addEventListener("change", (e) => applyLang(e.target.value));
+window.addEventListener("scroll", () => $("#nav").classList.toggle("scrolled", scrollY > 8), { passive: true });
+
+/* Reveal on scroll (everything visible immediately in static/reduced modes) */
+if (STATIC || reduceMotion || !("IntersectionObserver" in window)) document.querySelectorAll(".reveal").forEach((el) => el.classList.add("vis"));
+else {
+  const io = new IntersectionObserver((entries) => entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add("vis"); io.unobserve(en.target); } }), { threshold: 0.12 });
+  document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+}
+
+/* ---------- Init ---------- */
+$("#lang").innerHTML = Object.entries(LANG_NAMES).map(([c, n]) => `<option value="${c}">${n}</option>`).join("");
+const start = I18N[params.get("lang")] ? params.get("lang") : detectLang();
+$("#lang").value = start;
+applyLang(start);
+setInterval(renderCountdown, 30000);
+if (!store.get("tendra.consent") && !STATIC && !RECORDING) $("#cookie").hidden = false;
+</script>
+</body>
+</html>
